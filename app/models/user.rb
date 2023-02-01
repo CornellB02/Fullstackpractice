@@ -19,8 +19,8 @@ validates :password, length: { in: 6..255 }, allow_nil: true
 
 before_validation :ensure_session_token
 
-def self.find_by_credentials(username, password)
-  user = User.find_by(username: username)
+def self.find_by_credentials(credentials, password)
+  user = User.find_by(username: credentials) || User.find_by(email: credentials)
 
   if user&.authenticate(password)
     return user
