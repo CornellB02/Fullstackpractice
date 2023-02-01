@@ -41,6 +41,7 @@ end
 
 private
 
+
 def generate_unique_session_token
   while true 
      token = SecureRandom.urlsafe_base64
