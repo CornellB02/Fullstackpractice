@@ -2,22 +2,23 @@ class Api::SessionsController < ApplicationController
   def show
     if current_user
       @user = current_user
-      render json: {user: @user.as_json }
+      render 'api/users/show'
     else
       render json: {user: nil }
     end
   end
 
   def create
-    credential = params.require(:credential)
+    credentials = params.require(:username)
     password = params.require(:password)
+    email = params.require(:email)
 
     # debugger
-    @user = User.find_by_credentials(credential, password)
+    @user = User.find_by_credentials(credentials, password)
 
     if @user
       login!(@user)
-      render json: {user: @user.as_json }
+      render 'api/users/show'
     else
       render json: { error: "Invalid credentials" }, status: :unauthorized
     end

@@ -1,6 +1,14 @@
+include ActionController::RequestForgeryProtection
+  
+protect_from_forgery with: :exception
+
 class ApplicationController < ActionController::API
 
-before_action :snake_case_params
+    before_action :snake_case_params, :attach_authenticity_token
+
+def attach_authenticity_token
+    headers['X-CSRF-Token'] = masked_authenticity_token(session)
+end
 
 def current_user
     @current_user ||= User.find_by(session_token: session[:session_token])

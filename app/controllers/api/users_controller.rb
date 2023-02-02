@@ -6,14 +6,14 @@ class Api::UsersController < ApplicationController
 
     if @user.save
       login!(@user)
-      render {user: @user.as_json }
+      render :show
     else
       render json: {
                errors: @user.errors.full_messages
              },
              status: :unprocessable_entity
     end
-    render json: user_params
+    # render json: user_params
   end
 
   private
